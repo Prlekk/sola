@@ -26,6 +26,7 @@ class Subject {
     void addStudent(Student student);
     void allStudents();
     void addGradeToStudent(int grade, int studentId);
+    void removeStudentFromSubject(int studentId);
 };
 
 

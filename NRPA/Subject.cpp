@@ -67,4 +67,13 @@ void Subject::addGradeToStudent(int grade, int studentId)
     }
 }
 
-
+void Subject::removeStudentFromSubject(int studentId)
+{
+    auto it = std::find_if(students.begin(), students.end(), [studentId](Student student){ return student.getId() == studentId;});
+    if(it != students.end()) {
+        students.erase(it);
+        std::cout << it->getName() << " has been removed successfully!\n";
+    }else {
+        std::cout << "Student " << studentId << " is not in " << name << std::endl;
+    }
+}
