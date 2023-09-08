@@ -19,5 +19,7 @@ int main()
         nrpa.addGradeToStudent(rand()% 5 + 1, i.getId());
         nrpa.addGradeToStudent(rand()% 5 + 1, i.getId());
     }
+    nrpa.removeStudentFromSubject(29);
+    nrpa.removeStudentFromSubject(31);
     nrpa.allStudents();
 }

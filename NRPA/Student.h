@@ -54,6 +54,7 @@ class Student {
     void addGrade(Grades grade);
 
     std::vector<Grades> getGradesFromSpecificSubject(int subjectId);
+    
 };
 std::string generateEmail(std::string name, std::string surname);
 std::vector<Student> generateStudent();
