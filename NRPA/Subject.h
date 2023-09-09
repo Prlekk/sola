@@ -2,32 +2,28 @@
 #define SUBJECT_H
 
 #include "Student.h"
-#include "Grades.h"
-
-#include <vector>
 
 class Subject {
-  private:
-    int id;
-    std::string name;
-    std::string teacher;
-    std::vector<Student> students;
-  public:
-    Subject();
-    Subject(int i, std::string n, std::string t);
-    void setId(int i);
-    void setName(std::string n);
-    void setTeacher(std::string t);
-    
-    int getId();
-    std::string getName();
-    std::vector<Student> getStudents();
-    std::string getTeacher();
-    void addStudent(Student student);
-    void allStudents();
-    void addGradeToStudent(int grade, int studentId);
-    void removeStudentFromSubject(int studentId);
+    private:
+        int id;
+        std::string name;
+        std::string teacher;
+        std::vector<Student> students;
+    public:
+        Subject();
+        Subject(int i, std::string n, std::string t);
+        ~Subject();
+        void setId(int i);
+        void setName(std::string n);
+        void setTeacher(std::string t);
+        int getId();
+        std::string getName();
+        std::string getTeacher();
+        std::vector<Student> getStudents();
+        void printInfo();
+        void addStudent(Student student);
+        void getAllStudents();
+        std::vector<Student> removeStudent(int studentID);
 };
 
-
-#endif 
+#endif

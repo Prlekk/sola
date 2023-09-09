@@ -28,3 +28,73 @@ Portland
 Memphis
 Louisville
 Ljubljana
+Atlanta
+Miami
+Baltimore
+Raleigh
+Milwaukee
+Albuquerque
+Tucson
+Fresno
+Sacramento
+Omaha
+Colorado Springs
+Oakland
+Minneapolis
+Wichita
+New Orleans
+Arlington
+Tampa
+Bakersfield
+Aurora
+Santa Ana
+Anaheim
+Riverside
+Corpus Christi
+Lexington
+Stockton
+St. Louis
+Henderson
+St. Paul
+Pittsburgh
+Cincinnati
+Anchorage
+Toledo
+Greensboro
+Plano
+Newark
+Lincoln
+Buffalo
+Lubbock
+Chandler
+Fort Wayne
+St. Petersburg
+Jersey City
+Orlando
+Chula Vista
+Norfolk
+Durham
+Madison
+Baton Rouge
+Lubbock
+Reno
+Garland
+Scottsdale
+Irvine
+Hialeah
+Birmingham
+Spokane
+Modesto
+Montgomery
+Shreveport
+Yonkers
+Des Moines
+Richmond
+Tacoma
+Glendale
+Irving
+Grand Rapids
+Amarillo
+Fremont
+Mobile
+Huntington Beach

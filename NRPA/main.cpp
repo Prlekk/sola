@@ -1,25 +1,20 @@
 #include "Student.h"
 #include "Subject.h"
+#include "Functions.h"
 
-int main()
-{
-    std::vector<Student> students = generateStudent();
-    Subject nrpa(1, "NRPA", "Zak Drofenik");
-    Subject nupb(2, "NUPB", "Zoltan Sep");
+#include <iostream>
 
-    for(int i = 0; i < students.size(); i++) {
-        nrpa.addStudent(students[i]);
-        nupb.addStudent(students[i]);
+int main() {
+    srand(static_cast<unsigned>(time(nullptr)));
+    std::vector<Student> students = generateStudent(5);
+    std::vector<Subject> subjects = generateSubject();
+    for(int i = 0; i < subjects.size(); i++) {
+        for(int j = 0; j < students.size(); j++) {
+            subjects[i].addStudent(students[j]);
+        }
     }
-    for(auto i : students) {
-        nrpa.addGradeToStudent(rand()% 5 + 1, i.getId());
-        nrpa.addGradeToStudent(rand()% 5 + 1, i.getId());
-        nrpa.addGradeToStudent(rand()% 5 + 1, i.getId());
-        nrpa.addGradeToStudent(rand()% 5 + 1, i.getId());
-        nrpa.addGradeToStudent(rand()% 5 + 1, i.getId());
-        nrpa.addGradeToStudent(rand()% 5 + 1, i.getId());
-    }
-    nrpa.removeStudentFromSubject(29);
-    nrpa.removeStudentFromSubject(31);
-    nrpa.allStudents();
+    subjects[2].printInfo();
+    subjects[2].getAllStudents();
+    subjects[2].removeStudent(6);
+    subjects[2].getAllStudents();
 }

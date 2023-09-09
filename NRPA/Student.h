@@ -1,62 +1,50 @@
 #ifndef STUDENT_H
 #define STUDENT_H
 
-#include "Functions.h"
-#include "Grades.h"
+#include "Grade.h"
 
-#include <string>
 #include <iostream>
+#include <string>
+#include <vector>
 
-class Student {
-  private:
+class Student
+{
+private:
     int id;
     std::string mail;
     std::string name;
-    std::string gender;
     std::string birthDate;
-    std::string streetName;
-    std::string houseNumber;
+    std::string emso;
     std::string city;
     std::string country;
     std::string phoneNumber;
-    std::vector<Grades> grades;
-  public:
+    std::vector<Grade> grades;
+public:
     Student();
-    Student(int id, std::string mail, std::string name, std::string gender, 
-            std::string birthDate, std::string streetName, 
-            std::string houseNumber, std::string city,
-            std::string country, std::string phoneNumber);
-
+    Student(int i, std::string m, std::string n, std::string b, std::string e, std::string ci, std::string count, std::string p);
+    ~Student();
     void setId(int i);
     void setMail(std::string m);
     void setName(std::string n);
-    void setGender(std::string g);
     void setBirthDate(std::string b);
-    void setStreetName(std::string s);
-    void setHouseNumber(std::string h);
+    void setEmso(std::string e);
     void setCity(std::string c);
     void setCountry(std::string c);
     void setPhoneNumber(std::string p);
-
     int getId();
     std::string getMail();
     std::string getName();
-    std::string getGender();
     std::string getBirthDate();
-    std::string getStreetName();
-    std::string getHouseNumber();
+    std::string getEmso();
     std::string getCity();
     std::string getCountry();
     std::string getPhoneNumber();
-    std::vector<Grades> getGrades();
-
+    std::vector<Grade> getGrades();
     void printInfo();
-    void addGrade(Grades grade);
+    void addGrade(Grade grade);
+    std::vector<Grade> removeGrade(int gradeID);
 
-    std::vector<Grades> getGradesFromSpecificSubject(int subjectId);
-    
 };
-std::string generateEmail(std::string name, std::string surname);
-std::vector<Student> generateStudent();
-double averageGrade(std::vector<Grades> grades);
+
+
 #endif
