@@ -3,6 +3,8 @@
 
 #include "Student.h"
 
+#include <algorithm>
+
 class Subject {
     private:
         int id;

@@ -6,6 +6,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <algorithm>
 
 class Student
 {
@@ -41,7 +42,7 @@ public:
     std::string getPhoneNumber();
     std::vector<Grade> getGrades();
     void printInfo();
-    void addGrade(Grade grade);
+    bool addGrade(Grade grade);
     std::vector<Grade> removeGrade(int gradeID);
 
 };

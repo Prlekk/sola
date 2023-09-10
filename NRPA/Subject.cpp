@@ -21,6 +21,10 @@ int Subject::getId() { return id; }
 std::string Subject::getName() { return name; }
 std::string Subject::getTeacher() { return teacher; }
 
+std::vector<Student> Subject::getStudents() {
+    return students;
+}
+
 void Subject::printInfo() {
     std::cout << "ID: " << id << "\n";
     std::cout << "Name: " << name << "\n";
@@ -30,8 +34,17 @@ void Subject::printInfo() {
 
 // Class methods
 void Subject::addStudent(Student student) {
-    students.push_back(student);
+    int target = student.getId();
+    auto it = std::find_if(students.begin(), students.end(), [target](Student s) { return s.getId() == target; });
+
+    if (it == students.end()) {
+        std::cout << student.getName() + " added siccessfully!\n";
+        students.push_back(student);
+    } else {
+        std::cout << student.getName() << " is already in the subject.\n";
+    }
 }
+
 
 void Subject::getAllStudents() {
     if(students.empty()) {

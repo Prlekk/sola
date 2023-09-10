@@ -12,10 +12,6 @@ std::vector<std::string> extractArray(std::string filename) {
         temp.push_back(data);
     }
     file.close();
-    if(filename == "names.txt" || filename == "surnames.txt") {
-        std::sort(temp.begin(), temp.end());
-        return temp;
-    }
     std::random_device rd;
     std::mt19937 g(rd());
     std::shuffle(temp.begin(), temp.end(), g);
@@ -45,7 +41,7 @@ std::string randomDate() {
     }
     std::string year = toString(y);
 
-    return day + "-" + month + "-" + year;
+    return day + "." + month + "." + year;
 }
 
 std::string randomNumber(int length) {
@@ -57,15 +53,16 @@ std::string randomNumber(int length) {
 }
 
 std::string randomEMSO(std::string date) {
-    size_t firstHyphen = date.find('-');
-    size_t secondHyphen = date.find('-', firstHyphen + 1);
+    int firstDot = date.find('.');
+    int secondDot = date.find('.', firstDot + 1);
 
-    if (firstHyphen != std::string::npos && secondHyphen != std::string::npos) {
-        std::string day = date.substr(0, firstHyphen);
-        std::string month = date.substr(firstHyphen + 1, secondHyphen - firstHyphen - 1);
-        std::string year = date.substr(secondHyphen + 2);
+    if (firstDot != std::string::npos && secondDot != std::string::npos) {
+        std::string day = date.substr(0, firstDot);
+        std::string month = date.substr(firstDot + 1, secondDot - firstDot - 1);
+        std::string year = date.substr(secondDot + 2);
 
-        return day + month + year;
+        std::string temp = day + month + year + "500" + randomNumber(2);
+        return temp + controlNumber(temp);
     } else {
         return "Invalid date format";
     }
@@ -110,6 +107,35 @@ std::string controlNumber(std::string emso) {
         controlNumber = 0;
     }
     return toString(controlNumber);
+}
+
+void sleep(int time) {
+    std::this_thread::sleep_for(std::chrono::milliseconds(time));
+}
+
+void printText(std::string text) {
+    for(int i = 0; i < text.length(); i++) {
+        std::cout << text[i] << std::flush;
+        sleep(20);
+    }
+    std::cout << std::endl;
+}
+
+int userInput(int input) {
+    std::cout << "Input: ";
+    std::cin >> input;
+    return input;
+}
+double userInput(double input) {
+    std::cout << "Input: ";
+    std::cin >> input;
+    return input;
+}
+
+std::string userInput(std::string input) {
+    std::cout << "Input: ";
+    getline(std::cin, input);
+    return input;
 }
 
 std::vector<Student> generateStudent(int size) {
@@ -161,7 +187,7 @@ std::vector<Subject> generateSubject(){
     std::vector<Subject> temp;
     for(int i = 0; i < subjectNames.size() && i < teachers.size(); i++) {
         Subject s;
-        s.setId(i);
+        s.setId(i+1);
         s.setName(subjectNames[i]);
         s.setTeacher(teachers[i]);
         temp.push_back(s);
@@ -169,4 +195,99 @@ std::vector<Subject> generateSubject(){
     subjectNames.clear();
     teachers.clear();
     return temp;
+}
+
+bool findId(int id, std::vector<Subject> subjects) {
+    for(auto it : subjects) {
+        if(it.getId() == id) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool findId(int id, std::vector<Student> students) {
+    for(auto it : students) {
+        if(it.getId() == id) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool findId(int id, std::vector<Grade> grades) {
+    for(auto it : grades) {
+        if(it.getGradeID() == id) {
+            return true;
+        }
+    }
+    return false;
+}
+
+int firstAvaliableGradeId(std::vector<Grade> grades) {
+    if(grades.empty()) return 1;
+    return grades.back().getGradeID() + 1;
+}
+
+void printAllSubjects(std::vector<Subject> subjects) {
+    printText("Choose a subject:");
+    for(auto i : subjects) {
+        std::string line = toString(i.getId()) + "\t" + i.getName();
+        printText(line);
+    }
+}
+
+void printSubjectOptions() {
+    printText("Choose between these options:");
+    printText("1\tPrint Info");
+    printText("2\tAdd Student");
+    printText("3\tGet All Students");
+    printText("4\tRemove Student");
+}
+
+void printAllAvailableStudents(std::vector<Student> students, Subject &selectedSubject) {
+    std::vector<Student> studentsInSubject = selectedSubject.getStudents();
+    bool printed = false;
+    for (auto i : students) {
+        int targetId = i.getId();
+        auto it = std::find_if(studentsInSubject.begin(), studentsInSubject.end(), [targetId](Student s) { return s.getId() == targetId; });
+        if (it == studentsInSubject.end()) {
+            std::string line = toString(targetId) + "\t" + i.getName();
+            printText(line);
+            printed = true;
+        }
+    }
+    if (!printed) {
+        printText("All students are already in this subject.");
+    }
+}
+
+Student& getStudent(int studentId, std::vector<Student> students) {
+    for (Student& student : students) {
+        if (student.getId() == studentId) {
+            return student;
+        }
+    }
+    // Handle the case where no matching student is found
+    // You can throw an exception or return a sentinel value, as needed.
+    // For example, throwing an exception:
+    throw std::runtime_error("Student with ID " + std::to_string(studentId) + " not found.");
+}
+
+void printAllStudentsInSubject(std::vector<Student> students) {
+    if(students.empty()) {
+        printText("This subject does not possess any students.");
+    }else {
+        printText("Choose a student:");
+        for(auto i : students) {
+            std::string line = toString(i.getId()) + "\t" + i.getName();
+            printText(line);
+        }
+    }
+}
+
+void printStudentOptions() {
+    printText("1\tPrint Info");
+    printText("2\tAdd Grade");
+    printText("3\tRemove Grade");
 }

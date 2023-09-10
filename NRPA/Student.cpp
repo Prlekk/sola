@@ -52,11 +52,28 @@ void Student:: printInfo() {
     std::cout << "City: " << city << "\n";
     std::cout << "Country: " << country << "\n";
     std::cout << "Phone Number: " << phoneNumber << "\n";
+    std::cout << "Grades: ";
+    if(!grades.empty()){
+        for (auto it = grades.begin(); it != grades.end(); ++it) {
+            std::cout << it->getGrade();
+            if (std::next(it) != grades.end()) {
+                std::cout << ", ";
+            }
+        }
+    }else {
+        std::cout << name << " currently has no grades.\n";
+    }
     std::cout << "\n";
 }
 
-void Student::addGrade(Grade grade) {
-    grades.push_back(grade);
+bool Student::addGrade(Grade grade) {
+    int targetId = grade.getGradeID();
+    auto it = std::find_if(grades.begin(), grades.end(), [targetId](Grade g){ return g.getGradeID() == targetId; });
+    if(it == grades.end()) {
+        grades.push_back(grade);
+        return true; 
+    }
+    return false;
 }
 
 std::vector<Grade> Student::removeGrade(int gradeID) {
