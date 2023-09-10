@@ -29,6 +29,14 @@ void Subject::printInfo() {
     std::cout << "ID: " << id << "\n";
     std::cout << "Name: " << name << "\n";
     std::cout << "Teacher: " << teacher << "\n";
+    std::cout << "Students:\n";
+    if(!students.empty()){
+        for(auto i : students) {
+            std::cout << i.getName() << "\n";
+        }
+    }else {
+        std::cout << "The subject does not possess any students.\n";
+    }
     std::cout << "\n";
 }
 
@@ -38,7 +46,7 @@ void Subject::addStudent(Student student) {
     auto it = std::find_if(students.begin(), students.end(), [target](Student s) { return s.getId() == target; });
 
     if (it == students.end()) {
-        std::cout << student.getName() + " added siccessfully!\n";
+        std::cout << student.getName() + " added successfully!\n";
         students.push_back(student);
     } else {
         std::cout << student.getName() << " is already in the subject.\n";
@@ -51,7 +59,7 @@ void Subject::getAllStudents() {
         std::cout << "This subject does not have any students.\n";
     }else {
         for(auto i : students) {
-            std::cout << "Name: " << i.getName() << "\n";
+            std::cout << "Name: " << i.getName() << i.getId() << "\n";
         }
     }
 }

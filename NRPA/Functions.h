@@ -35,9 +35,14 @@ bool findId(int id, std::vector<Student> students);
 bool findId(int id, std::vector<Grade> grades);
 int firstAvaliableGradeId(std::vector<Grade> grades);
 void printAllSubjects(std::vector<Subject> subjects);
+void printAllStudents(std::vector<Student> students);
+void printAllGrades(std::vector<Grade> grades);
 void printSubjectOptions();
 void printAllAvailableStudents(std::vector<Student> students, Subject &selectedSubject);
 Student& getStudent(int studentId, std::vector<Student> students);
 void printAllStudentsInSubject(std::vector<Student> students);
 void printStudentOptions();
+int findIndexOfVector(int studentId, std::vector<Student> students);
+int findIndexOfVector(int studentId, std::vector<Subject> subjects);
+void printOptions(Student student, Subject subject);
 #endif

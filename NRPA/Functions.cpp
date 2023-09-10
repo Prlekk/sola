@@ -237,6 +237,21 @@ void printAllSubjects(std::vector<Subject> subjects) {
     }
 }
 
+void printAllStudents(std::vector<Student> students) {
+    printText("Choose a student:");
+    for(auto i : students) {
+        std::string line = toString(i.getId()) + "\t" + i.getName();
+        printText(line);
+    }
+}
+
+void printAllGrades(std::vector<Grade> grades) {
+    for(auto i : grades) {
+        std::string line = toString(i.getGradeID()) + "\t" + toString(i.getGrade());
+        printText(line);
+    }
+}
+
 void printSubjectOptions() {
     printText("Choose between these options:");
     printText("1\tPrint Info");
@@ -290,4 +305,31 @@ void printStudentOptions() {
     printText("1\tPrint Info");
     printText("2\tAdd Grade");
     printText("3\tRemove Grade");
+}
+
+int findIndexOfVector(int studentId, std::vector<Student> students) {
+    for(int i = 0; i < students.size(); i++) {
+        if(students[i].getId() == studentId) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+int findIndexOfVector(int studentId, std::vector<Subject> subjects) {
+    for(int i = 0; i < subjects.size(); i++) {
+        if(subjects[i].getId() == studentId) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+void printOptions(Student student, Subject subject) {
+    printText("Choose an option:");
+    printText(" \t" + student.getName() + "\t\t" + subject.getName() + "\n");
+    printText("1\tPrint Info\t4\tPrint Info");
+    printText("2\tAdd Grade\t5\tAdd Student");
+    printText("3\tRemove Grade\t6\tGet All Students");
+    printText("\t\t\t7\tRemove Student");
 }

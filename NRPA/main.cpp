@@ -21,102 +21,84 @@ int main() {
     std::vector<Subject> subjects = generateSubject();
     std::vector<Grade> allGrades;
     printText("Created a list of students with size of " + toString(input) + ".");
-    while(1) {
-        input = 0;
-        printAllSubjects(subjects);
+
+    while(1){
+        //Choose a student
+        printAllStudents(students);
+        do{
+            input = userInput(input);
+            if(!findId(input, students)) {
+                printText("Student with ID " + toString(input) + " does not exist.");
+            }
+        }while(!findId(input, students));
+        Student &selectedStudent = students[findIndexOfVector(input, students)];
+        printText("Selected " + selectedStudent.getName() + ".");
 
         //Choose a subject
-
+        printAllSubjects(subjects);
         do{
             input = userInput(input);
             if(!findId(input, subjects)) {
-                printText("ID " + toString(input) + " does not exist in subjects list.");
+                printText("Subject with ID " + toString(input) + " does not exist.");
             }
         }while(!findId(input, subjects));
-        Subject &selectedSubject = subjects[input - 1];
-        int studentsIndex = -1;
-        printText("Selected " + selectedSubject.getName());
-        //Choose an action for a subject
-        input = 0;
-        printSubjectOptions();
+        Subject &selectedSubject = subjects[findIndexOfVector(input, subjects)];
+        printText("Selected " + selectedSubject.getName() + ".");
+
+        //Displaying options
+        printOptions(selectedStudent, selectedSubject);
+
         do{
             input = userInput(input);
-            if(input < 1 || input > students.size()) {
-                printText("Select an option from the displayed options.");
+            if(input < 1 || input > 7) {
+                printText("Invalid input. Try again.");
             }
-        }while(input < 1 || input > students.size());
-        switch (input){
-            case 1 : 
-                selectedSubject.printInfo();
-                break;
-            case 2 :
-                printAllAvailableStudents(students, selectedSubject);
-                do{
-                    input = userInput(input);
-                    if(input < 1 || input > 4) {
-                        printText("Student with ID " + toString(input) + " does not exist in students list.");
-                    }
-                }while(input < 1 || input > 4);
-                selectedSubject.addStudent(getStudent(input, students));
-                break;
-            case 3 :
-                printAllStudentsInSubject(selectedSubject.getStudents());
-                if(!selectedSubject.getStudents().empty()) {
-                    do{
-                        input = userInput(input);
-                        if(!findId(input, selectedSubject.getStudents())) {
-                            printText("Student with ID " + toString(input) + " does not exist in this subject.");
-                        }
-                    }while(!findId(input, selectedSubject.getStudents()));
-                    printStudentOptions();
-                    do{
-                        input = userInput(input);
-                        if(input < 1 || input > 3) {
-                            printText("Select an option from the displayed options.");
-                        }
-                    }while (input < 1 || input > 3);
-                    Grade grade;
-                    switch (input){
-                    case 1:
-                        getStudent(input, students).printInfo();
-                        break;
-                    case 2:
-                        printText("Choose a grade:");
-                        printText("1\t2\t3\t4\t5");
-                        do{
-                            input = userInput(input);
-                            if(input < 1 || input > 5) {
-                                printText("Select an option from the displayed options.");
-                            }
-                        }while (input < 1 || input > 5);
-                        grade.setGradeID(firstAvaliableGradeId(allGrades));
-                        grade.setStudentID(getStudent(input, students).getId());
-                        grade.setSubjectID(selectedSubject.getId());
-                        grade.setGrade(input);
-                        if(getStudent(getStudent(input, students).getId(), students).addGrade(grade)) {
-                            printText("Grade added successfully!");
-                        }else {
-                            printText("Grade was not added because the grade with the same ID already exists.");
-                        }
-                        break;
-                    default:
-                        break;
-                    }
+        }while(input < 1 || input > 7);
+
+        //Student options
+        if(input == 1) {
+            selectedStudent.printInfo();
+        }
+        if(input == 2) {
+            printText("Choose a grade:");
+            printText("1\t2\t3\t4\t5");
+            do{
+                input = userInput(input);
+                if(input < 1 || input > 5) {
+                    printText("Invaild grade. Try again.");
                 }
-                break;
-            case 4 :
-                printAllStudentsInSubject(selectedSubject.getStudents());
-                do{
-                    input = userInput(input);
-                    if(!findId(input, selectedSubject.getStudents())) {
-                        printText("Student with ID " + toString(input) + " does not exist in this subject.");
-                    }
-                }while(!findId(input, selectedSubject.getStudents()));
-                selectedSubject.removeStudent(input);
-                break;
-            default:
-                break;
+            }while(input < 1 || input > 5);
+            Grade grade(firstAvaliableGradeId(allGrades), selectedStudent.getId(), selectedSubject.getId(), input);
+            if(selectedStudent.addGrade(grade)) {
+                printText("Grade added successfully!");
+            }else {
+                printText("Error. Grade already exists and was not added.");
+            }
+        }
+        if(input == 3) {
+            printText("Choose a grade ID:");
+            printAllGrades(selectedStudent.getGrades());
+            do{
+                input = userInput(input);
+                if(!findId(input, selectedStudent.getGrades())) {
+                    printText("Grade with ID " + toString(input) + " does not exist");
+                }
+            }while(!findId(input, selectedStudent.getGrades()));
+            selectedStudent.removeGrade(input);
+        }
+
+        //Subject options
+        if(input == 4) {
+            selectedSubject.printInfo();
+        }
+        if(input == 5) {
+            selectedSubject.addStudent(selectedStudent);
+        }
+        if(input == 6) {
+            selectedSubject.getAllStudents();
+        }
+        if(input == 7) {
+            selectedSubject.removeStudent(selectedStudent.getId());
         }
     }
-
 }
