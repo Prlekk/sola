@@ -23,7 +23,7 @@ class Subject {
         std::string getTeacher();
         std::vector<Student> getStudents();
         void printInfo();
-        void addStudent(Student student);
+        bool addStudent(Student student);
         void getAllStudents();
         std::vector<Student> removeStudent(int studentID);
 };

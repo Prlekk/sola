@@ -41,7 +41,6 @@ public:
     std::string getCountry();
     std::string getPhoneNumber();
     std::vector<Grade> getGrades();
-    void printInfo();
     bool addGrade(Grade grade);
     std::vector<Grade> removeGrade(int gradeID);
 

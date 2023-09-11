@@ -1,6 +1,10 @@
 #ifndef GRADE_H
 #define GRADE_H
 
+#include <iostream>
+#include <thread>
+#include <chrono>
+
 class Grade
 {
 private:
@@ -21,5 +25,10 @@ public:
     int getSubjectID();
     int getGrade();
 };
+
+void sleep(int time);
+void printText(std::string text);
+std::string toString(int num);
+int toInt(std::string str);
 
 #endif

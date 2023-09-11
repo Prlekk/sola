@@ -68,21 +68,6 @@ std::string randomEMSO(std::string date) {
     }
 }
 
-std::string toString(int num) {
-    if (num == 0) {
-        return "0";
-    }
-
-    std::string temp = "";
-    while (num != 0) {
-        int digit = num % 10;
-        char digitChar = '0' + digit;
-        temp = digitChar + temp;
-        num /= 10;
-    }
-    return temp;
-}
-
 std::string toLowerCase(std::string str) {
     for(int i = 0; i < str.length(); i++) {
         if(str[i] >= 65 && str[i] <= 90) {
@@ -109,32 +94,14 @@ std::string controlNumber(std::string emso) {
     return toString(controlNumber);
 }
 
-void sleep(int time) {
-    std::this_thread::sleep_for(std::chrono::milliseconds(time));
-}
-
-void printText(std::string text) {
-    for(int i = 0; i < text.length(); i++) {
-        std::cout << text[i] << std::flush;
-        sleep(20);
-    }
-    std::cout << std::endl;
-}
-
 int userInput(int input) {
     std::cout << "Input: ";
     std::cin >> input;
-    return input;
-}
-double userInput(double input) {
-    std::cout << "Input: ";
-    std::cin >> input;
-    return input;
-}
-
-std::string userInput(std::string input) {
-    std::cout << "Input: ";
-    getline(std::cin, input);
+    if(std::cin.fail()) {
+        std::cin.clear();
+        std::cin.ignore(1000, '\n');
+        return -1;
+    }
     return input;
 }
 
@@ -155,7 +122,7 @@ std::vector<Student> generateStudent(int size) {
 
     std::vector<Student> temp;
     if(size > 100) {
-        std::cout << "Size too big. Generating 100 students.\n";
+        printText("Size too big. Generating 100 students.");
     }
     for(int i = 0; i < size && i < 100; i++) {
         Student s;
@@ -235,6 +202,8 @@ void printAllSubjects(std::vector<Subject> subjects) {
         std::string line = toString(i.getId()) + "\t" + i.getName();
         printText(line);
     }
+    printText("");
+    printText("0\tExit Program");
 }
 
 void printAllStudents(std::vector<Student> students) {
@@ -243,13 +212,28 @@ void printAllStudents(std::vector<Student> students) {
         std::string line = toString(i.getId()) + "\t" + i.getName();
         printText(line);
     }
+    printText("");
+    printText("0\tExit Program");
 }
 
-void printAllGrades(std::vector<Grade> grades) {
+void printAllGrades(std::vector<Grade> grades, std::vector<Subject> subjects) {
+    printText("Grade ID\tGrade\tSubject");
     for(auto i : grades) {
-        std::string line = toString(i.getGradeID()) + "\t" + toString(i.getGrade());
+        std::string line = toString(i.getGradeID()) + "\t\t" + toString(i.getGrade()) + "\t" + returnSubjectName(subjects, i.getSubjectID());
         printText(line);
     }
+    printText("");
+    printText("0\tExit Program");
+}
+
+std::string returnSubjectName(std::vector<Subject> subjects, int subjectId) {
+    int index = 0;
+    for(int i = 0; i < subjects.size(); i++) {
+        if(subjects[i].getId() == subjectId) {
+            index = i;
+        }
+    }
+    return subjects[index].getName();
 }
 
 void printSubjectOptions() {
@@ -332,4 +316,60 @@ void printOptions(Student student, Subject subject) {
     printText("2\tAdd Grade\t5\tAdd Student");
     printText("3\tRemove Grade\t6\tGet All Students");
     printText("\t\t\t7\tRemove Student");
+    printText("");
+    printText("0\tExit Program");
+}
+
+std::vector<int> returnDistinctSubjectId(std::vector<Grade> grades) {
+    std::vector<int> newGrades;
+    std::set<int> distinctSubjectIds;
+    for (Grade grade : grades) {
+        int subjectId = grade.getSubjectID();
+        if (distinctSubjectIds.find(subjectId) == distinctSubjectIds.end()) {
+            distinctSubjectIds.insert(subjectId);
+            newGrades.push_back(grade.getSubjectID());
+        }
+    }
+    return newGrades;
+}
+
+
+void printAllSubjectGrades(std::vector<Grade> grades, std::vector<Subject> subjects, int subjectId) {
+    std::string subjectName = returnSubjectName(subjects, subjectId);
+    std::string line = subjectName + "\t";
+    double sum = 0;
+    int gradeSize = 0;
+    double average = 0;
+    for(int i = 0; i < grades.size(); i++) {
+        if(grades[i].getSubjectID() == subjectId) {
+            sum = sum + grades[i].getGrade();
+            gradeSize = gradeSize + 1;
+            line = line + toString(grades[i].getGrade()) + ", ";
+        }
+    }
+    line = line.substr(0, line.length() - 2);
+    average = sum / gradeSize;
+    printText(line);
+    std::cout << "  Avg.: " << average << "\n\n";
+}
+
+void printInfo(Student student, std::vector<Subject> subjects) {
+    printText("ID: " + toString(student.getId()));
+    printText("Mail: " + student.getMail());
+    printText("Name: " + student.getName());
+    printText("Birth Date: " + student.getBirthDate());
+    printText("EMSO: " + student.getEmso());
+    printText("City: " + student.getCity());
+    printText("Country: " + student.getCountry());
+    printText("Phone Number: " + student.getPhoneNumber());
+    printText("Grades:");
+    if(!student.getGrades().empty()){
+        std::vector<int> temp = returnDistinctSubjectId(student.getGrades());
+        for(auto i : temp) {
+            printAllSubjectGrades(student.getGrades(), subjects, i);
+        }
+    }else {
+        printText(student.getName() + " currently has no grades.");
+    }
+    std::cout << "\n";
 }

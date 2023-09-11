@@ -26,40 +26,42 @@ std::vector<Student> Subject::getStudents() {
 }
 
 void Subject::printInfo() {
-    std::cout << "ID: " << id << "\n";
-    std::cout << "Name: " << name << "\n";
-    std::cout << "Teacher: " << teacher << "\n";
-    std::cout << "Students:\n";
+    printText("ID: " + toString(id));
+    printText("Name: " + name);
+    printText("Teacher: " + teacher);
+    printText("Students:");
     if(!students.empty()){
         for(auto i : students) {
-            std::cout << i.getName() << "\n";
+            printText("\t" + i.getName());
         }
     }else {
-        std::cout << "The subject does not possess any students.\n";
+        printText("The subject does not possess any students.");
     }
     std::cout << "\n";
 }
 
 // Class methods
-void Subject::addStudent(Student student) {
+bool Subject::addStudent(Student student) {
     int target = student.getId();
     auto it = std::find_if(students.begin(), students.end(), [target](Student s) { return s.getId() == target; });
 
     if (it == students.end()) {
-        std::cout << student.getName() + " added successfully!\n";
+        printText(student.getName() + " added successfully!");
         students.push_back(student);
+        return true;
     } else {
-        std::cout << student.getName() << " is already in the subject.\n";
+        printText(student.getName() + " is already in the subject.");
+        return false;
     }
 }
 
 
 void Subject::getAllStudents() {
     if(students.empty()) {
-        std::cout << "This subject does not have any students.\n";
+        printText("This subject does not have any students.");
     }else {
         for(auto i : students) {
-            std::cout << "Name: " << i.getName() << i.getId() << "\n";
+            printText("Name: " + i.getName());
         }
     }
 }
@@ -68,13 +70,13 @@ std::vector<Student> Subject::removeStudent(int studentID) {
     auto it = students.begin();
     while(it != students.end()) {
         if(it->getId() == studentID) {
-            std::cout << it->getName() << " was removed from " << name << " successfully!\n";
+            printText(it->getName() + " was removed from " + name + " successfully!");
             students.erase(it);
             return students;
         }else {
             it++;
         }
     }
-    std::cout << "Student with ID " << studentID << " was not found.\n";
+    printText("Student with ID " + toString(studentID) + " was not found");
     return students;
 }

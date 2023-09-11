@@ -25,3 +25,43 @@ int Grade::getSubjectID() { return subjectID; }
 int Grade::getGrade() { return grade; }
 
 //Class methods
+
+//Other
+void sleep(int time) {
+    std::this_thread::sleep_for(std::chrono::milliseconds(time));
+}
+
+void printText(std::string text) {
+    for(int i = 0; i < text.length(); i++) {
+        std::cout << text[i] << std::flush;
+        sleep(20);
+    }
+    std::cout << std::endl;
+}
+
+std::string toString(int num) {
+    if (num == 0) {
+        return "0";
+    }
+
+    std::string temp = "";
+    while (num != 0) {
+        int digit = num % 10;
+        char digitChar = '0' + digit;
+        temp = digitChar + temp;
+        num /= 10;
+    }
+    return temp;
+}
+
+int toInt(std::string str) {
+    try {
+        return std::stoi(str);
+    } catch (const std::invalid_argument& e) {
+        std::cerr << "Error: " << e.what() << std::endl;
+        return 0;
+    } catch (const std::out_of_range& e) {
+        std::cerr << "Error: " << e.what() << std::endl;
+        return 0;
+    }
+}

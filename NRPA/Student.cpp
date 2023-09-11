@@ -43,28 +43,6 @@ std::string Student::getPhoneNumber() { return phoneNumber; }
 std::vector<Grade> Student::getGrades() { return grades; }
 
 //Class methods
-void Student:: printInfo() {
-    std::cout << "ID: " << id << "\n";
-    std::cout << "Mail: " << mail << "\n";
-    std::cout << "Name: " << name << "\n";
-    std::cout << "Birth Date: " << birthDate << "\n";
-    std::cout << "EMSO: " << emso << "\n";
-    std::cout << "City: " << city << "\n";
-    std::cout << "Country: " << country << "\n";
-    std::cout << "Phone Number: " << phoneNumber << "\n";
-    std::cout << "Grades: ";
-    if(!grades.empty()){
-        for (auto it = grades.begin(); it != grades.end(); ++it) {
-            std::cout << it->getGrade();
-            if (std::next(it) != grades.end()) {
-                std::cout << ", ";
-            }
-        }
-    }else {
-        std::cout << name << " currently has no grades.\n";
-    }
-    std::cout << "\n";
-}
 
 bool Student::addGrade(Grade grade) {
     int targetId = grade.getGradeID();
@@ -81,12 +59,12 @@ std::vector<Grade> Student::removeGrade(int gradeID) {
     while(it != grades.end()) {
         if(it->getGradeID() == gradeID) {
             grades.erase(it);
-            std::cout << "Grade removed successfully!\n";
+            printText("Grade removed successfully!");
             return grades;
         }else{
             it++;
         }
     }
-    std::cout << "Grade ID " << gradeID << " was not found.\n";
+    printText("Grade ID " + toString(gradeID) + " was not found.");
     return grades;
 }
